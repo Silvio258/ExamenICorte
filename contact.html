@@ -19,10 +19,10 @@ integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEw
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link active text-light" href="#">Home</a>
-                <a class="nav-link active text-light" aria-current="true" href="#">Acerca de nosotros</a>
-                <a class="nav-link active text-light" href="#">Catálogo</a>
-                <a class="nav-link active text-light" href="#">Formulario</a>
+                <a class="nav-link active text-light" href="index.html">Home</a>
+                <a class="nav-link active text-light" href="nosotros.html">Acerca de nosotros</a>
+                <a class="nav-link active text-light" href="tailwind.html">Catálogo</a>
+                <a class="nav-link active text-light" aria-current="true" href="#">Formulario</a>
             </div>
         </div>
     </div>
@@ -103,15 +103,44 @@ integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEw
 
         // Validar que todos los campos estén completos
         if (nombre.trim() === '' || email.trim() === '' || telefono.trim() === '' || mensaje.trim() === '') {
-            return fire()
-            ;
+            Swal.fire({
+                title: 'Oops...',
+                icon: 'error',
+                text: 'Todos los campos son obligatorios',
+                confirmButtonText: 'Entendido'
+            });
+            return;
         }
 
-        Swal.fire({
-                icon: 'error',
+        // Validar el formato del correo electrónico
+        if (!/\S+@\S+\.\S+/.test(email)) {
+            Swal.fire({
                 title: 'Oops...',
-                text: 'Todos los campos son obligatorios',
-            })
+                icon: 'error',
+                text: 'El formato del correo electrónico no es válido',
+                confirmButtonText: 'Entendido'
+            });
+            return;
+        }
+
+        //Validar el formato del número de teléfono
+        if (!/^\d{8}$/.test(telefono)) {
+            Swal.fire({
+                title: 'Oops...',
+                icon: 'error',
+                text: 'El número de teléfono debe contener 10 dígitos',
+                confirmButtonText: 'Entendido'
+            });
+            return;
+        }
+
+        // Si todos los campos están completos y los formatos son válidos, mostrar una alerta de éxito
+        Swal.fire({
+            title: '¡Éxito!',
+            icon: 'success',
+            text: 'Los datos se han enviado correctamente',
+            confirmButtonText: 'Aceptar'
+        });
 
         // Si todos los campos están completos, enviar el formulario
         document.getElementById('contactForm').submit();
